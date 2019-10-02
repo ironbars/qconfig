@@ -1,0 +1,69 @@
+#!/bin/bash
+
+readonly QCONFIG_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
+readonly QCONFIG_BASH_CONF="${QCONFIG_HOME}"/bash
+readonly QCONFIG_VIM_CONF="${QCONFIG_HOME}"/vim
+readonly QCONFIG_VIMRC="${HOME}"/.vim/vimrc
+readonly QCONFIG_TMP_BASHRC="/tmp/bashrc"
+
+die() {
+	echo "$@" >&2
+	exit 1
+}
+
+qconfig_bash() {
+	make_aliases
+
+	cat "${QCONFIG_BASH_CONF}"/bashrc/*.sh >> "${QCONFIG_TMP_BASHRC}"
+}
+
+qconfig_vim() {
+	local vim_plugin_dir="${HOME}"/.vim/pack/"${USER}"/start
+
+	mkdir -p "${vim_plugin_dir}"
+	cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
+
+	for p in "${QCONFIG_VIM_PLUGINS[@]}"
+	do
+		local install_dir="$(echo "${p}" | 
+			perl -n -e '/.*\/([a-zA-Z0-9_\-\.]+)\.git/ && print $1'
+		)"
+		git clone "${p}" "${vim_plugin_dir}"/"${install_dir}"
+	done
+}
+
+finish() {
+	result=$?
+
+	rm -f "${QCONFIG_TMP_BASHRC}"
+
+	exit "${result}"
+}
+
+main() {
+	case "${OSTYPE}" in
+		"darwin18"*)
+			source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
+			;;
+		"linux-gnu")
+			source "${QCONFIG_BASH_CONF}"/platform/linux.sh
+			;;
+		*)
+			die "Unsupported platform"
+	esac
+
+	source "${QCONFIG_BASH_CONF}"/mkalias.sh
+	source "${QCONFIG_VIM_CONF}"/vim-plugins.sh
+
+	qconfig_bash
+	qconfig_vim
+
+	cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
+
+	echo "Run the following when ready:"
+	echo "source ${QCONFIG_BASHRC}"
+}
+
+main
+
+trap finish EXIT
