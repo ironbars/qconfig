@@ -36,6 +36,7 @@ finish() {
 	result=$?
 
 	rm -f "${QCONFIG_TMP_BASHRC}"
+	rm -f "${QCONFIG_TMP_ALIASES}"
 
 	exit "${result}"
 }

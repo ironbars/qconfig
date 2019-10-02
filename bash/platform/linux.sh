@@ -7,10 +7,10 @@ os="$(grep '^ID' /etc/os-release | cut -f2 -d"=")"
 
 case "${os}" in
 	"arch")
-		source "${QCONFIG_HOME}"/bash/platform/linux/arch.sh
+		source "${QCONFIG_BASH_CONF}"/platform/linux/arch.sh
 		;;
 	"fedora")
-		source "${QCONFIG_HOME}"/bash/platform/linux/fedora.sh
+		source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
 		;;
 	*)
 		die "Unsupported OS"
