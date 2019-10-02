@@ -48,6 +48,7 @@ main() {
 			;;
 		"linux-gnu")
 			source "${QCONFIG_BASH_CONF}"/platform/linux.sh
+			qconfig_check_linux
 			;;
 		*)
 			die "Unsupported platform"
