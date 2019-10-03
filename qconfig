@@ -2,9 +2,11 @@
 
 readonly QCONFIG_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 readonly QCONFIG_BASH_CONF="${QCONFIG_HOME}"/bash
+readonly QCONFIG_BASH_ALIASES="${QCONFIG_BASH_CONF}"/bashrc/10aliases.sh
 readonly QCONFIG_VIM_CONF="${QCONFIG_HOME}"/vim
 readonly QCONFIG_VIMRC="${HOME}"/.vim/vimrc
 readonly QCONFIG_TMP_BASHRC="/tmp/bashrc"
+readonly QCONFIG_TMP_ALIASES="/tmp/aliases.sh"
 
 die() {
 	echo "$@" >&2
@@ -12,7 +14,7 @@ die() {
 }
 
 qconfig_bash() {
-	make_aliases
+	qconfig_make_aliases
 
 	cat "${QCONFIG_BASH_CONF}"/bashrc/*.sh >> "${QCONFIG_TMP_BASHRC}"
 }

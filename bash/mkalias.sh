@@ -1,6 +1,3 @@
-readonly QCONFIG_TMP_ALIASES="/tmp/aliases.sh"
-readonly QCONFIG_BASH_ALIASES="${QCONFIG_BASH_CONF}"/bashrc/10aliases.sh
-
 _make_ls_aliases() {
 	echo "alias ls='ls ${LS_OPTS}'" >> "${QCONFIG_TMP_ALIASES}"
 	echo "alias la='ls ${LA_OPTS}'" >> "${QCONFIG_TMP_ALIASES}"
@@ -22,7 +19,7 @@ _make_pkg_mgr_aliases() {
 	echo "alias search='${PKG_SEARCH}'" >> "${QCONFIG_TMP_ALIASES}"
 }
 
-make_aliases() {
+qconfig_make_aliases() {
 	if [[ -f "${QCONFIG_TMP_ALIASES}" ]]; then
 		rm -f "${QCONFIG_TMP_ALIASES}"
 	fi
