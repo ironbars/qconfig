@@ -4,17 +4,17 @@ LA_OPTS='-a --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=aut
 LL_OPTS='-l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 
 qconfig_check_linux() {
-	local os="$(grep '^ID' /etc/os-release | cut -f2 -d"=")"
+  local os="$(grep '^ID' /etc/os-release | cut -f2 -d"=")"
 
-	case "${os}" in
-		"arch")
-			source "${QCONFIG_BASH_CONF}"/platform/linux/arch.sh
-			;;
-		"fedora")
-			source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
-			;;
-		*)
-			die "Unsupported OS"
-			;;
-	esac
+  case "${os}" in
+    "arch")
+      source "${QCONFIG_BASH_CONF}"/platform/linux/arch.sh
+      ;;
+    "fedora")
+      source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
+      ;;
+    *)
+      die "Unsupported OS"
+      ;;
+  esac
 }

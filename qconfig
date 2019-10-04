@@ -9,63 +9,62 @@ readonly QCONFIG_TMP_BASHRC="/tmp/bashrc"
 readonly QCONFIG_TMP_ALIASES="/tmp/aliases.sh"
 
 die() {
-	echo "$@" >&2
-	exit 1
+  echo "$@" >&2
+  exit 1
 }
 
 qconfig_bash() {
-	qconfig_make_aliases
+  qconfig_make_aliases
 
-	cat "${QCONFIG_BASH_CONF}"/bashrc/*.sh >> "${QCONFIG_TMP_BASHRC}"
+  cat "${QCONFIG_BASH_CONF}"/bashrc/*.sh >> "${QCONFIG_TMP_BASHRC}"
 }
 
 qconfig_vim() {
-	local vim_plugin_dir="${HOME}"/.vim/pack/"${USER}"/start
+  local vim_plugin_dir="${HOME}"/.vim/pack/"${USER}"/start
 
-	mkdir -p "${vim_plugin_dir}"
-	cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
+  mkdir -p "${vim_plugin_dir}"
+  cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
 
-	for p in "${QCONFIG_VIM_PLUGINS[@]}"
-	do
-		local install_dir="$(echo "${p}" | 
-			perl -n -e '/.*\/([a-zA-Z0-9_\-\.]+)\.git/ && print $1'
-		)"
-		git clone "${p}" "${vim_plugin_dir}"/"${install_dir}"
-	done
+  for p in "${QCONFIG_VIM_PLUGINS[@]}"; do
+    local install_dir="$(echo "${p}" | 
+      perl -n -e '/.*\/([a-zA-Z0-9_\-\.]+)\.git/ && print $1'
+    )"
+    git clone "${p}" "${vim_plugin_dir}"/"${install_dir}"
+  done
 }
 
 finish() {
-	result=$?
+  result=$?
 
-	rm -f "${QCONFIG_TMP_BASHRC}"
-	rm -f "${QCONFIG_TMP_ALIASES}"
+  rm -f "${QCONFIG_TMP_BASHRC}"
+  rm -f "${QCONFIG_TMP_ALIASES}"
 
-	exit "${result}"
+  exit "${result}"
 }
 
 main() {
-	case "${OSTYPE}" in
-		"darwin18"*)
-			source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
-			;;
-		"linux-gnu")
-			source "${QCONFIG_BASH_CONF}"/platform/linux.sh
-			qconfig_check_linux
-			;;
-		*)
-			die "Unsupported platform"
-	esac
+  case "${OSTYPE}" in
+    "darwin18"*)
+      source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
+      ;;
+    "linux-gnu")
+      source "${QCONFIG_BASH_CONF}"/platform/linux.sh
+      qconfig_check_linux
+      ;;
+    *)
+      die "Unsupported platform"
+  esac
 
-	source "${QCONFIG_BASH_CONF}"/mkalias.sh
-	source "${QCONFIG_VIM_CONF}"/vim-plugins.sh
+  source "${QCONFIG_BASH_CONF}"/mkalias.sh
+  source "${QCONFIG_VIM_CONF}"/vim-plugins.sh
 
-	qconfig_bash
-	qconfig_vim
+  qconfig_bash
+  qconfig_vim
 
-	cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
+  cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
 
-	echo "Run the following when ready:"
-	echo "source ${QCONFIG_BASHRC}"
+  echo "Run the following when ready:"
+  echo "source ${QCONFIG_BASHRC}"
 }
 
 main
