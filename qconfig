@@ -44,7 +44,7 @@ finish() {
 
 main() {
   case "${OSTYPE}" in
-    "darwin18"*)
+    "darwin"*)
       source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
       ;;
     "linux-gnu")
