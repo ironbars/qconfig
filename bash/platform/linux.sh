@@ -4,7 +4,7 @@ LA_OPTS='-a --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=aut
 LL_OPTS='-l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 
 qconfig_check_linux() {
-  local os="$(grep '^ID' /etc/os-release | cut -f2 -d"=")"
+  local os="$(grep '^ID=' /etc/os-release | cut -f2 -d"=")"
 
   case "${os}" in
     "arch")
@@ -12,6 +12,12 @@ qconfig_check_linux() {
       ;;
     "fedora")
       source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
+      ;;
+    "ubuntu")
+      source "${QCONFIG_BASH_CONF}"/platform/linux/debian.sh
+      ;;
+    "debian")
+      source "${QCONFIG_BASH_CONF}"/platform/linux/debian.sh
       ;;
     *)
       die "Unsupported OS"
