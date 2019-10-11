@@ -1,7 +1,8 @@
+_LS_TIMESTYLE='--time-style=+"%Y.%m.%d %H:%M"'
 QCONFIG_BASHRC="${HOME}"/.bashrc
-LS_OPTS='--group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-LA_OPTS='-a --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-LL_OPTS='-l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+LS_OPTS="-F --group-directories-first ${_LS_TIMESTYLE} --color=auto"
+LA_OPTS="-a ${LS_OPTS}"
+LL_OPTS="-l ${LS_OPTS}"
 
 qconfig_check_linux() {
   local os="$(grep '^ID=' /etc/os-release | cut -f2 -d"=")"
