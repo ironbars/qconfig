@@ -5,21 +5,48 @@
 ex () {
   if [ -f "$1" ]; then
     case "$1" in
-      *.tar.bz2)  tar xjf "$1";;
-      *.tar.gz) tar xzf "$1";;
-      *.bz2)    bunzip2 "$1";;
-      *.rar)    unrar x "$1";;
-      *.gz)   gunzip "$1";;
-      *.tar)    tar xf "$1";;
-      *.tbz2)   tar xjf "$1";;
-      *.tgz)    tar xzf "$1";;
-      *.zip)    unzip "$1";;
-      *.Z)    uncompress "$1";;
-      *.7z)   7z x "$1";;
-      *)      echo "'$1' cannot be extracted via ex()";;
+      *.tar.bz2)
+        tar xjf "$1"
+        ;;
+      *.tar.gz) 
+        tar xzf "$1"
+        ;;
+      *.bz2)
+        bunzip2 "$1"
+        ;;
+      *.rar)
+        unrar x "$1"
+        ;;
+      *.gz)
+        gunzip "$1"
+        ;;
+      *.tar)
+        tar xf "$1"
+        ;;
+      *.tbz2)
+        tar xjf "$1"
+        ;;
+      *.tgz)
+        tar xzf "$1"
+        ;;
+      *.zip)
+        unzip "$1"
+        ;;
+      *.Z)
+        uncompress "$1"
+        ;;
+      *.7z)
+        7z x "$1"
+        ;;
+      *)
+        echo "'$1' cannot be extracted via ex()"
+        return 1
+        ;;
     esac
+
   else
     echo "'$1' is not a valid file"
+    return 1
   fi
 }
 
@@ -27,13 +54,20 @@ ex () {
 # usage: csource <source_file>
 csource () {
   if [ -z "$1" ]; then
-    echo "Missing operand";
-    return 1;
+    echo "Missing operand"
+    return 1
   fi
-  local OUTPUT_PATH="$(echo "$1" | sed -e "s/^.*\/\|^/\/tmp\//" | sed -e "s/\.c$//")"
-  gcc "$1" -o "${OUTPUT_PATH}" && "${OUTPUT_PATH}";
-  rm "${OUTPUT_PATH}";
-  return 0;
+
+  local output_path="$(
+    echo "$1" | 
+    sed -e "s/^.*\/\|^/\/tmp\//" | 
+    sed -e "s/\.c$//"
+  )"
+
+  gcc "$1" -o "${output_path}" && "${output_path}";
+  rm "${output_path}"
+
+  return 0
 }
 
 # cl - cd and ls in one command
@@ -48,6 +82,7 @@ cl () {
     ls
   else
     echo "bash: cl: '${dir}': Directory not found"
+    return 1
   fi
 }
 
@@ -79,7 +114,11 @@ gitup () {
 # gitclean - remove branches that aren't needed any longer
 # usage: gitclean (inside of a git repository)
 gitclean () {
-  declare -a branches=$(git branch | sed 's/^[^a-zA-Z0-9]*//'g | egrep -v "^dev|^master")
+  declare -a branches="$(
+    git branch | 
+    sed 's/^[^a-zA-Z0-9]*//'g |
+    egrep -v "^dev|^master"
+  )"
 
   for branch in "${branches[@]}"; do
     git branch -d "${branch}"
