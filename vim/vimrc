@@ -3,6 +3,7 @@
 set nocompatible
 syntax on
 let mapleader=","
+let g:nv_search_paths=["~/notes"]
 set backspace=2
 set laststatus=2
 set history=500
