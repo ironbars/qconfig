@@ -2,7 +2,7 @@
 # -------------
 # ex - archive extractor
 # usage: ex <archive>
-ex () {
+ex() {
   if [ -f "$1" ]; then
     case "$1" in
       *.tar.bz2)
@@ -52,7 +52,7 @@ ex () {
 
 # csource - compile and execute C source on the fly
 # usage: csource <source_file>
-csource () {
+csource() {
   if [ -z "$1" ]; then
     echo "Missing operand"
     return 1
@@ -72,7 +72,7 @@ csource () {
 
 # cl - cd and ls in one command
 # usage: cl <directory>
-cl () {
+cl() {
   local dir="$1"
   if [[ -z "$dir" ]]; then
     dir="${HOME}"
@@ -97,7 +97,7 @@ utime() {
 }
 
 # gitup - update local "production" branches with remote changes
-gitup () {
+gitup() {
   local wanted="master"
   local current="$(git rev-parse --abbrev-ref HEAD)"
 
@@ -113,7 +113,7 @@ gitup () {
 
 # gitclean - remove branches that aren't needed any longer
 # usage: gitclean (inside of a git repository)
-gitclean () {
+gitclean() {
   declare -a branches="$(
     git branch | 
     sed 's/^[^a-zA-Z0-9]*//'g |
@@ -126,13 +126,13 @@ gitclean () {
 }
 
 # gitready - clean up local git repository
-gitready () {
+gitready() {
   gitup
   gitclean
 }
 
 # gitpr - push current branch to remote to set up pull request
-gitpr () {
+gitpr() {
   local current="$(git rev-parse --abbrev-ref HEAD)"
 
   if [[ "${current}" == "master" || "${current}" == "dev" ]]; then
