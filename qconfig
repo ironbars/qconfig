@@ -22,7 +22,7 @@ qconfig_bash() {
 }
 
 qconfig_vim() {
-  local vim_plugin_dir="${HOME}"/.vim/pack/"${USER}"/start
+  local vim_plugin_dir="${HOME}"/.vim/pack/dist/start
 
   mkdir -p "${vim_plugin_dir}"
   cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
