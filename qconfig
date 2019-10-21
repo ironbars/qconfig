@@ -15,6 +15,14 @@ die() {
   exit 1
 }
 
+red_echo() {
+  echo -e "\033[0;31m$@\033[0m"
+}
+
+yellow_echo() {
+  echo -e "\033[0;33m$@\033[0m"
+}
+
 qconfig_bash() {
   qconfig_make_aliases
 
@@ -32,6 +40,16 @@ qconfig_vim() {
     local install_dir="${reponame%.*}"
     git clone "${p}" "${vim_plugin_dir}"/"${install_dir}"
   done
+}
+
+qconfig_remind() {
+  yellow_echo "Remember, check if the following executables are present"
+  yellow_echo "If they are not, be sure to install them so everything works"
+
+  echo -n "Bash: "
+  red_echo "${QCONFIG_BASH_DEPS[@]}"
+  echo -n "Vim: "
+  red_echo "${QCONFIG_VIM_DEPS[@]}"
 }
 
 finish() {
@@ -57,10 +75,13 @@ main() {
   esac
 
   source "${QCONFIG_BASH_CONF}"/mkalias.sh
+  source "${QCONFIG_BASH_CONF}"/deps.sh
   source "${QCONFIG_VIM_CONF}"/vim-plugins.sh
+  source "${QCONFIG_VIM_CONF}"/deps.sh
 
   qconfig_bash
   qconfig_vim
+  qconfig_remind
 
   cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
 
