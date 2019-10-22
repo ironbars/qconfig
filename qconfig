@@ -10,24 +10,13 @@ readonly QCONFIG_VIMRC="${HOME}"/.vim/vimrc
 readonly QCONFIG_TMP_BASHRC=/tmp/bashrc
 readonly QCONFIG_TMP_ALIASES=/tmp/aliases.sh
 
-die() {
-  echo "$@" >&2
-  exit 1
-}
-
-red_echo() {
-  echo -e "\033[0;31m$@\033[0m"
-}
-
-yellow_echo() {
-  echo -e "\033[0;33m$@\033[0m"
-}
 
 qconfig_bash() {
   qconfig_make_aliases
 
   cat "${QCONFIG_BASH_CONF}"/bashrc/*.sh >> "${QCONFIG_TMP_BASHRC}"
 }
+
 
 qconfig_vim() {
   local vim_plugin_dir="${HOME}"/.vim/pack/dist/start
@@ -42,7 +31,8 @@ qconfig_vim() {
   done
 }
 
-qconfig_remind() {
+
+qconfig_dep_reminder() {
   yellow_echo "Remember, check if the following executables are present"
   yellow_echo "If they are not, be sure to install them so everything works"
 
@@ -52,16 +42,10 @@ qconfig_remind() {
   red_echo "${QCONFIG_VIM_DEPS[@]}"
 }
 
-finish() {
-  result=$?
-
-  rm -f "${QCONFIG_TMP_BASHRC}"
-  rm -f "${QCONFIG_TMP_ALIASES}"
-
-  exit "${result}"
-}
 
 main() {
+  source "${QCONFIG_HOME}"/lib/utils.sh
+
   case "${OSTYPE}" in
     "darwin"*)
       source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
@@ -81,7 +65,7 @@ main() {
 
   qconfig_bash
   qconfig_vim
-  qconfig_remind
+  qconfig_dep_reminder
 
   cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
 
