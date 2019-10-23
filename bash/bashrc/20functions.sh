@@ -5,10 +5,10 @@
 ex() {
   if [ -f "$1" ]; then
     case "$1" in
-      *.tar.bz2)
+      *.tar.bz2|*.tbz2)
         tar xjf "$1"
         ;;
-      *.tar.gz) 
+      *.tar.gz|*.tgz) 
         tar xzf "$1"
         ;;
       *.bz2)
@@ -22,12 +22,6 @@ ex() {
         ;;
       *.tar)
         tar xf "$1"
-        ;;
-      *.tbz2)
-        tar xjf "$1"
-        ;;
-      *.tgz)
-        tar xzf "$1"
         ;;
       *.zip)
         unzip "$1"

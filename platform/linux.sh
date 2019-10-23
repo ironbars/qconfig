@@ -21,10 +21,7 @@ qconfig_check_linux() {
     "fedora")
       source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
       ;;
-    "ubuntu")
-      source "${QCONFIG_BASH_CONF}"/platform/linux/debian.sh
-      ;;
-    "debian")
+    "ubuntu"|"debian")
       source "${QCONFIG_BASH_CONF}"/platform/linux/debian.sh
       ;;
     *)
