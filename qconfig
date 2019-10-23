@@ -25,7 +25,7 @@ qconfig_vim() {
   mkdir -p "${vim_plugin_dir}"
   cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
 
-  for plugin in "${QCONFIG_VIM_PLUGINS[@]}"; do
+  for plugin in "${vim_plugins[@]}"; do
     local reponame="${plugin##*/}"
     local install_dir="${reponame%.*}"
     git clone "${plugin}" "${vim_plugin_dir}"/"${install_dir}"
