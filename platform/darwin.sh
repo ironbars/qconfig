@@ -5,6 +5,9 @@ LL_OPTS="-l -T ${LS_OPTS}"
 PKG_ADD="brew install"
 PKG_REMOVE="brew uninstall"
 PKG_SEARCH="brew search"
+PLATFORM_BASH_DEPS=()
+PLATFORM_VIM_DEPS=()
+PLATFORM_VIM_PLUGINS=()
 
 qconfig_package_manager() {
   /usr/bin/ruby -e "$(

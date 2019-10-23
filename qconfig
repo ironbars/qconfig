@@ -19,27 +19,31 @@ qconfig_bash() {
 
 
 qconfig_vim() {
+  local vim_plugins=("${QCONFIG_VIM_PLUGINS[@]}" "${PLATFORM_VIM_PLUGINS[@]}")
   local vim_plugin_dir="${HOME}"/.vim/pack/dist/start
 
   mkdir -p "${vim_plugin_dir}"
   cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
 
-  for p in "${QCONFIG_VIM_PLUGINS[@]}"; do
-    local reponame="${p##*/}"
+  for plugin in "${QCONFIG_VIM_PLUGINS[@]}"; do
+    local reponame="${plugin##*/}"
     local install_dir="${reponame%.*}"
-    git clone "${p}" "${vim_plugin_dir}"/"${install_dir}"
+    git clone "${plugin}" "${vim_plugin_dir}"/"${install_dir}"
   done
 }
 
 
 qconfig_dep_reminder() {
+  local bash_deps=("${QCONFIG_BASH_DEPS[@]}" "${PLATFORM_BASH_DEPS[@]}")
+  local vim_deps=("${QCONFIG_VIM_DEPS[@]}" "${PLATFORM_VIM_DEPS[@]}")
+
   yellow_echo "Remember, check if the following executables are present"
   yellow_echo "If they are not, be sure to install them so everything works"
 
   echo -n "Bash: "
-  red_echo "${QCONFIG_BASH_DEPS[@]}"
+  red_echo "${bash_deps[@]}"
   echo -n "Vim: "
-  red_echo "${QCONFIG_VIM_DEPS[@]}"
+  red_echo "${vim_deps[@]}"
 }
 
 
@@ -48,10 +52,10 @@ main() {
 
   case "${OSTYPE}" in
     "darwin"*)
-      source "${QCONFIG_BASH_CONF}"/platform/darwin.sh
+      source "${QCONFIG_HOME}"/platform/darwin.sh
       ;;
     "linux-gnu")
-      source "${QCONFIG_BASH_CONF}"/platform/linux.sh
+      source "${QCONFIG_HOME}"/platform/linux.sh
       qconfig_check_linux
       ;;
     *)

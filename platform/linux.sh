@@ -3,6 +3,13 @@ QCONFIG_BASHRC="${HOME}"/.bashrc
 LS_OPTS="-F --group-directories-first ${_LS_TIMESTYLE} --color=auto"
 LA_OPTS="-a ${LS_OPTS}"
 LL_OPTS="-l ${LS_OPTS}"
+PLATFORM_BASH_DEPS=()
+PLATFORM_VIM_DEPS=("fzf" "ripgrep")
+PLATFORM_VIM_PLUGINS=(
+  "https://github.com/junegunn/fzf.vim" 
+  "https://github.com/alok/notational-fzf-vim.git"
+)
+  
 
 qconfig_check_linux() {
   local os="$(grep '^ID=' /etc/os-release | cut -f2 -d"=")"
