@@ -16,13 +16,13 @@ qconfig_check_linux() {
 
   case "${os}" in
     "arch")
-      source "${QCONFIG_BASH_CONF}"/platform/linux/arch.sh
+      source "${QCONFIG_HOME}"/platform/linux/arch.sh
       ;;
     "fedora")
-      source "${QCONFIG_BASH_CONF}"/platform/linux/fedora.sh
+      source "${QCONFIG_HOME}"/platform/linux/fedora.sh
       ;;
     "ubuntu"|"debian")
-      source "${QCONFIG_BASH_CONF}"/platform/linux/debian.sh
+      source "${QCONFIG_HOME}"/platform/linux/debian.sh
       ;;
     *)
       die "Unsupported OS"
