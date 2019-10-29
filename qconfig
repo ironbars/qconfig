@@ -9,6 +9,7 @@ readonly QCONFIG_VIM_CONF="${QCONFIG_HOME}"/vim
 readonly QCONFIG_VIMRC="${HOME}"/.vim/vimrc
 readonly QCONFIG_TMP_BASHRC=/tmp/bashrc
 readonly QCONFIG_TMP_ALIASES=/tmp/aliases.sh
+readonly QCONFIG_TMP_VIM_DIR=/tmp/vim
 
 
 qconfig_bash() {
@@ -20,10 +21,11 @@ qconfig_bash() {
 
 qconfig_vim() {
   local vim_plugins=("${QCONFIG_VIM_PLUGINS[@]}" "${PLATFORM_VIM_PLUGINS[@]}")
-  local vim_plugin_dir="${HOME}"/.vim/pack/dist/start
+  local vim_plugin_dir="${QCONFIG_TMP_VIM_DIR}"/pack/dist/start
 
+  mkdir -p "${QCONFIG_TMP_VIM_DIR}"
   mkdir -p "${vim_plugin_dir}"
-  cp -R "${QCONFIG_VIM_CONF}"/* "${HOME}"/.vim/
+  cp -R "${QCONFIG_VIM_CONF}"/* "${QCONFIG_TMP_VIM_DIR}"/
 
   for plugin in "${vim_plugins[@]}"; do
     local reponame="${plugin##*/}"
@@ -71,7 +73,8 @@ main() {
   qconfig_vim
   qconfig_dep_reminder
 
-  cp -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
+  mv -f "${QCONFIG_TMP_BASHRC}" "${QCONFIG_BASHRC}"
+  mv -f "${QCONFIG_TMP_VIM_DIR}" "${HOME}"/.vim
 
   echo "Run the following when ready:"
   echo "source ${QCONFIG_BASHRC}"

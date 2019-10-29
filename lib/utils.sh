@@ -18,8 +18,9 @@ yellow_echo() {
 finish() {
   result=$?
 
-  rm -f "${QCONFIG_TMP_BASHRC}"
-  rm -f "${QCONFIG_TMP_ALIASES}"
+  [[ -f "${QCONFIG_TMP_BASHRC}" ]] && rm -f "${QCONFIG_TMP_BASHRC}"
+  [[ -f "${QCONFIG_TMP_ALIASES}" ]] && rm -f "${QCONFIG_TMP_ALIASES}"
+  [[ -d "${QCONFIG_TMP_VIM_DIR}" ]] && rm -rf "${QCONFIG_TMP_VIM_DIR}"
 
   exit "${result}"
 }
