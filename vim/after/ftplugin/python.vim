@@ -1,4 +1,4 @@
-setlocal sts=4
-setlocal sw=4
-setlocal et
+setlocal softtabstop=4
+setlocal shiftwidth=4
+setlocal expandtab
 setlocal foldmethod=indent
