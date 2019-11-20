@@ -8,6 +8,7 @@ PLATFORM_VIM_DEPS=("fzf" "ripgrep")
 PLATFORM_VIM_PLUGINS=(
   "https://github.com/junegunn/fzf.vim" 
   "https://github.com/alok/notational-fzf-vim.git"
+  "https://github.com/ironbars/nvlinks.git"
 )
   
 
