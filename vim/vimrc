@@ -3,8 +3,8 @@
 set nocompatible
 syntax on
 let mapleader=","
-let g:nv_search_paths=["~/notes"]
 set backspace=indent,eol,start
+"always let the last window have a status line
 set laststatus=2
 set ruler
 set number
@@ -21,8 +21,6 @@ colorscheme apprentice
 set tabstop=4
 set shiftwidth=4
 set expandtab
-"set softtabstop=4
-"set noexpandtab
 set smarttab
 filetype plugin indent on
 
@@ -44,16 +42,33 @@ nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 "edit and source vimrc on the fly
-nnoremap <leader>ev :split $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>ev :split $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 "open buffers for selection
-nnoremap <leader>b :buffers<CR>:b<space>
+nnoremap <leader>b :ls<CR>:b<space>
+"shortcut for fzf file search
+nnoremap <leader>fs :Files<CR>
 "change word to uppercase
 inoremap <C-u> <esc>viwUea
 
 "Syntax highlighting (for strange extensions)
 "================================================
-autocmd BufRead,BufNewFile *.sage set filetype=python
-autocmd BufRead,BufNewFile *.adoc set filetype=asciidoc
-autocmd BufRead,BufNewFile *bashrc* set filetype=sh
+augroup filetype_cmds
+  autocmd!
+  autocmd BufRead,BufNewFile *.sage set filetype=python
+  autocmd BufRead,BufNewFile *.adoc set filetype=asciidoc
+  autocmd BufRead,BufNewFile *bashrc* set filetype=sh
+augroup END
 
+"Custom command for fzf and ripgrep
+command! -bang -nargs=* Search call fzf#vim#grep(
+  \ 'rg --line-number --no-heading --fixed-strings --ignore-case
+  \ --no-ignore --hidden --follow --glob "!.git/*" --color "always" '
+  \ . shellescape(<q-args>), 1, <bang>0)
+
+"Key binding for the above command
+nnoremap <leader>s :Search<space>
+
+if has('linux')
+  source vimrc-linux
+endif 

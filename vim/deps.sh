@@ -1,1 +1,1 @@
-QCONFIG_VIM_DEPS=()
+QCONFIG_VIM_DEPS=("fzf" "ripgrep")
