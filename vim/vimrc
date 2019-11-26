@@ -33,6 +33,12 @@ set incsearch
 set hlsearch
 nnoremap <silent> <leader>q :nohlsearch<CR>
 
+"Custom command for fzf and ripgrep
+command! -bang -nargs=* Search call fzf#vim#grep(
+  \ 'rg --line-number --no-heading --fixed-strings --ignore-case
+  \ --no-ignore --hidden --follow --glob "!.git/*" --color "always" '
+  \ . shellescape(<q-args>), 1, <bang>0)
+
 "Extra key bindings
 "================================================
 nnoremap j gj
@@ -46,8 +52,10 @@ nnoremap <leader>ev :split $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 "open buffers for selection
 nnoremap <leader>b :ls<CR>:b<space>
-"shortcut for fzf file search
+"open fzf file search
 nnoremap <leader>fs :Files<CR>
+"open rg and fzf to search inside files
+nnoremap <leader>s :Search<space>
 "change word to uppercase
 inoremap <C-u> <esc>viwUea
 
@@ -60,14 +68,6 @@ augroup filetype_cmds
   autocmd BufRead,BufNewFile *bashrc* set filetype=sh
 augroup END
 
-"Custom command for fzf and ripgrep
-command! -bang -nargs=* Search call fzf#vim#grep(
-  \ 'rg --line-number --no-heading --fixed-strings --ignore-case
-  \ --no-ignore --hidden --follow --glob "!.git/*" --color "always" '
-  \ . shellescape(<q-args>), 1, <bang>0)
-
-"Key binding for the above command
-nnoremap <leader>s :Search<space>
 
 if has('linux')
   source vimrc-linux
